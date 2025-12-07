@@ -25,6 +25,20 @@ function validMoves = movePawn(board, piece, color)
         end
     end
 
+    % Diagonal captures
+    for i = [-1, 1]
+        nextR = r + dir;
+        nextC = c + i;
+
+        if utils.inBounds(nextR, nextC)
+            nextPiece = board.pieces{nextR, nextC};
+            if ~isempty(nextPiece) && strcmp(nextPiece.color, enemy)
+                moveCount = moveCount + 1;
+                validMoves(moveCount,:) = [nextR, nextC];
+            end
+        end
+    end
+
     % Trim unused preallocated rows
     validMoves = validMoves(1:moveCount,:);
 end

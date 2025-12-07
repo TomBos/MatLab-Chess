@@ -5,10 +5,8 @@ function validMoves = getMoves(board, r, c)
         return;
     end
 
-    % Convert to char and get type and color
-    img = char(piece.imgSrc);
-    type = img(3);
-    color = img(1);
+    type = piece.type;
+    color = piece.color;
 
     switch type
         case 'B'

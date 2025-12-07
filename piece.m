@@ -3,8 +3,10 @@ classdef piece < handle
         imgSrc
         row
         col
-        size = 0.9
         handle
+        color
+        type
+        size = 0.9
         firstMove = true
     end
 
@@ -21,6 +23,13 @@ classdef piece < handle
             obj.imgSrc = imgSrc;
             obj.row = row;
             obj.col = col;
+
+            % Get 'w' or 'b'
+            imgChar = char(imgSrc);
+            obj.color = imgChar(1);
+            
+            % Get piece type from src example: (w/P)
+            obj.type = imgChar(3);
 
             obj.draw();
         end
