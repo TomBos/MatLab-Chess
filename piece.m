@@ -1,55 +1,56 @@
 classdef piece < handle
     properties
-        ImgSrc
-        Row
-        Col
-        Size = 0.9
-        Handle
+        imgSrc
+        row
+        col
+        size = 0.9
+        handle
+        firstMove = true
     end
 
     methods
         function obj = piece(imgSrc, row, col, pieceSize)
             if nargin >= 4
-                obj.Size = pieceSize;
+                obj.size = pieceSize;
             end
 
             if ~endsWith(imgSrc, ".png")
                 imgSrc = imgSrc + ".png";
             end
 
-            obj.ImgSrc = imgSrc;
-            obj.Row = row;
-            obj.Col = col;
+            obj.imgSrc = imgSrc;
+            obj.row = row;
+            obj.col = col;
 
             obj.draw();
         end
 
         function draw(obj)
-            img = imread(obj.ImgSrc);
+            img = imread(obj.imgSrc);
 
-            x = obj.Col - 1 + (1 - obj.Size)/2;
-            y = obj.Row - 1 + (1 - obj.Size)/2;
+            x = obj.col - 1 + (1 - obj.size)/2;
+            y = obj.row - 1 + (1 - obj.size)/2;
 
-            obj.Handle = image([x x+obj.Size], [y y+obj.Size], img);
+            obj.handle = image([x x+obj.size], [y y+obj.size], img);
             set(gca,'YDir','reverse');
         end
 
         function moveTo(obj, row, col)
-            obj.Row = row;
-            obj.Col = col;
+            obj.row = row;
+            obj.col = col;
             obj.updatePosition();
         end
 
         function updatePosition(obj)
-            if isempty(obj.Handle) || ~isvalid(obj.Handle)
+            if isempty(obj.handle) || ~isvalid(obj.handle)
                 return;
             end
 
-            x = obj.Col - 1 + (1 - obj.Size)/2;
-            y = obj.Row - 1 + (1 - obj.Size)/2;
+            x = obj.col - 1 + (1 - obj.size)/2;
+            y = obj.row - 1 + (1 - obj.size)/2;
 
-            obj.Handle.XData = [x x+obj.Size];
-            obj.Handle.YData = [y y+obj.Size];
+            obj.handle.XData = [x x+obj.size];
+            obj.handle.YData = [y y+obj.size];
         end
     end
 end

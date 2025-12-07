@@ -1,48 +1,48 @@
 classdef board < handle
     properties
-        LightColor
-        DarkColor
-        Figure
-        Ax
-        Pieces
-        SquareSize = 1
+        lightColor
+        darkColor
+        figure
+        ax
+        pieces
+        squareSize = 1
     end
 
     methods
         function obj = board(light, dark)
-            obj.LightColor = light;
-            obj.DarkColor = dark;
-            obj.Pieces = cell(8, 8);
+            obj.lightColor = light;
+            obj.darkColor = dark;
+            obj.pieces = cell(8, 8);
             obj.initFigure();
             obj.drawBoard();
             obj.spawnPieces();
         end
 
         function initFigure(obj)
-            obj.Figure = figure(1);
-            clf(obj.Figure);
+            obj.figure = figure(1);
+            clf(obj.figure);
 
-            obj.Ax = axes(obj.Figure);
-            hold(obj.Ax, 'on');
-            axis(obj.Ax, 'equal', 'off');
+            obj.ax = axes(obj.figure);
+            hold(obj.ax, 'on');
+            axis(obj.ax, 'equal', 'off');
 
-            set(obj.Ax, 'YDir', 'reverse');
-            xlim(obj.Ax, [0 8]);
-            ylim(obj.Ax, [0 8]);
+            set(obj.ax, 'YDir', 'reverse');
+            xlim(obj.ax, [0 8]);
+            ylim(obj.ax, [0 8]);
         end
 
         function drawBoard(obj)
             for row = 1:8
                 for col = 1:8
                     if mod(row+col,2) == 0
-                        color = obj.LightColor;
+                        color = obj.lightColor;
                     else
-                        color = obj.DarkColor;
+                        color = obj.darkColor;
                     end
 
                     rectangle(...
-                        'Parent', obj.Ax,...
-                        'Position', [col-1, row-1, obj.SquareSize, obj.SquareSize], ...
+                        'Parent', obj.ax,...
+                        'Position', [col-1, row-1, obj.squareSize, obj.squareSize], ...
                         'FaceColor', color, ...
                         'EdgeColor', 'none' ...
                     );
@@ -79,7 +79,7 @@ classdef board < handle
 
         function addPiece(obj, imgCode, row, col)
             p = piece(imgCode, row, col);
-            obj.Pieces{row, col} = p;
+            obj.pieces{row, col} = p;
         end
     end
 end
