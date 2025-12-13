@@ -2,7 +2,7 @@ function pos = getpos(ax)
     % Wait for a click and return [row, col]
     pos = [];
 
-    % Get parent
+    % --- Get parent ---
     ax = gca;
     f = ancestor(ax, 'figure');
     posClick = [];

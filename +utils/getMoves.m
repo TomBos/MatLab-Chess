@@ -20,6 +20,6 @@ function validMoves = getMoves(board, r, c)
         case 'Q'
             doSomething(color);
         case 'R'
-            doSomething(color);
+            validMoves = utils.moves.moveRook(board, piece, color);
     end
 end

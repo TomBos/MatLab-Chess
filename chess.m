@@ -17,10 +17,6 @@ while true
     validMoves = utils.getMoves(B, old_r, old_c);
     circleHandles = utils.highlightMoves(validMoves);
 
-    % ============================================================
-    %  CLICK 2 → MOVE PIECE
-    % ============================================================
-
     pos = utils.getValidMove(validMoves);
 
     if exist('circleHandles','var')
@@ -44,4 +40,6 @@ while true
     % --- Move the actual sprite ---
     selected_piece.moveTo(new_r, new_c);
     selected_piece.firstMove = false;
+
+    display(B.pieces);
 end

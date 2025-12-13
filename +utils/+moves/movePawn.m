@@ -7,12 +7,12 @@ function validMoves = movePawn(board, piece, color)
     r = piece.row;
     c = piece.col;
 
-    % Get direction
+    % --- Get direction ---
     dir = utils.tern(color == 'w', 1, -1);
     enemy = utils.tern(color == 'w', 'b', 'w');
 
 
-    % Forward moves
+    % --- Forward moves ---
     steps = 1 + piece.firstMove;
 
     for i = 1:steps
@@ -25,20 +25,22 @@ function validMoves = movePawn(board, piece, color)
         end
     end
 
-    % Diagonal captures
+    % --- Diagonal captures ---
     for i = [-1, 1]
         nextR = r + dir;
         nextC = c + i;
 
-        if utils.inBounds(nextR, nextC)
-            nextPiece = board.pieces{nextR, nextC};
-            if ~isempty(nextPiece) && strcmp(nextPiece.color, enemy)
-                moveCount = moveCount + 1;
-                validMoves(moveCount,:) = [nextR, nextC];
-            end
+        if ~utils.inBounds(nextR, nextC)
+            continue;
+        end
+        
+        nextPiece = board.pieces{nextR, nextC};
+        if ~isempty(nextPiece) && strcmp(nextPiece.color, enemy)
+           moveCount = moveCount + 1;
+           validMoves(moveCount,:) = [nextR, nextC];
         end
     end
 
-    % Trim unused preallocated rows
+    % --- Trim unused preallocated rows ---
     validMoves = validMoves(1:moveCount,:);
 end

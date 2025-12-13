@@ -24,11 +24,11 @@ classdef piece < handle
             obj.row = row;
             obj.col = col;
 
-            % Get 'w' or 'b'
+            % --- Get 'w' or 'b' ---
             imgChar = char(imgSrc);
             obj.color = imgChar(1);
             
-            % Get piece type from src example: (w/P)
+            % --- Get piece type from src example: (w/P) ---
             obj.type = imgChar(3);
 
             obj.draw();
@@ -36,13 +36,33 @@ classdef piece < handle
 
         function draw(obj)
             img = imread(obj.imgSrc);
+            img = im2double(img);
+
+            R = img(:,:,1);
+            G = img(:,:,2);
+            B = img(:,:,3);
+
+            % --- Detect red ---
+            redMask = R > 0.6 & G < 0.4 & B < 0.4;
+
+            % --- Alpha channel ---
+            alpha = ones(size(R));
+            alpha(redMask) = 0;
 
             x = obj.col - 1 + (1 - obj.size)/2;
             y = obj.row - 1 + (1 - obj.size)/2;
 
-            obj.handle = image([x x+obj.size], [y y+obj.size], img);
+            % --- Draw image with transparency ---
+            obj.handle = image( ...
+                'XData', [x x+obj.size], ...
+                'YData', [y y+obj.size], ...
+                'CData', img, ...
+                'AlphaData', alpha ...
+            );
+
             set(gca,'YDir','reverse');
         end
+
 
         function moveTo(obj, row, col)
             obj.row = row;

@@ -51,13 +51,13 @@ classdef board < handle
         end
 
         function spawnPieces(obj)
-            % Pawns
+            % --- Pawns --- 
             for i = 1:8
                 obj.addPiece("w/P", 2, i);
                 obj.addPiece("b/P", 7, i);
             end
 
-            % Rooks / Knights / Bishops / King / Queen
+            % --- Rooks / Knights / Bishops / King / Queen ---
             obj.addPiece("w/R", 1, 1);
             obj.addPiece("w/H", 1, 2);
             obj.addPiece("w/B", 1, 3);
