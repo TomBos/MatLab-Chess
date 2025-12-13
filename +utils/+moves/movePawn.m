@@ -35,7 +35,17 @@ function validMoves = movePawn(board, piece, color)
         end
         
         nextPiece = board.pieces{nextR, nextC};
-        if ~isempty(nextPiece) && strcmp(nextPiece.color, enemy)
+        if isempty(nextPiece)
+            continue;
+        end
+
+        % --- Dont capture King ---
+        if strcmp(nextPiece.type, 'K')
+            continue;
+        end
+
+        % --- Capture enemy ---
+        if strcmp(nextPiece.color, enemy)
            moveCount = moveCount + 1;
            validMoves(moveCount,:) = [nextR, nextC];
         end

@@ -10,7 +10,7 @@ function validMoves = getMoves(board, r, c)
 
     switch type
         case 'B'
-            doSomething(color);
+            validMoves = utils.moves.moveBishop(board, piece, color);
         case 'H'
             doSomething(color);
         case 'K'

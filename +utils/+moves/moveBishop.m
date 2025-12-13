@@ -1,6 +1,6 @@
-function validMoves = moveRook(board, piece, color)
+function validMoves = moveBishop(board, piece, color)
     % --- Max possible bishop moves ---
-    validMoves = zeros(14,2);
+    validMoves = zeros(13,2);
     moveCount = 0;
 
     r = piece.row;
@@ -9,10 +9,10 @@ function validMoves = moveRook(board, piece, color)
 
     % [ direction rows, direction columns, max steps ] 
     dirs = [
-        -1  0  r-1; % UP
-         1  0  8-r; % DOWN
-         0 -1  c-1; % LEFT
-         0  1  8-c  % RIGHT
+        -1 -1  min(r-1, c-1);     % up-left
+        -1  1  min(r-1, 8-c);     % up-right
+         1 -1  min(8-r, c-1);     % down-left
+         1  1  min(8-r, 8-c)      % down-right
     ];
 
     for d = 1:4
@@ -31,14 +31,14 @@ function validMoves = moveRook(board, piece, color)
                 break;
             end
 
-            % --- Capture enemy piece ---
+            % --- Capture enemy ---
             if ~isempty(nextPiece) && strcmp(nextPiece.color, enemy)
                 moveCount = moveCount + 1;
                 validMoves(moveCount,:) = [nextRow, nextCol];
                 break;
             end
 
-            % --- Stop for friendly piece ---
+            % --- Stop on friendly piece ---
             if ~isempty(nextPiece)
                 break;
             end
