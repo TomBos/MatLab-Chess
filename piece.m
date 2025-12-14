@@ -45,7 +45,7 @@ classdef piece < handle
             % --- Detect red ---
             redMask = R > 0.6 & G < 0.4 & B < 0.4;
 
-            % --- Alpha channel ---
+            % --- Alpha ---
             alpha = ones(size(R));
             alpha(redMask) = 0;
 

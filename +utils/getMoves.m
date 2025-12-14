@@ -12,13 +12,13 @@ function validMoves = getMoves(board, r, c)
         case 'B'
             validMoves = utils.moves.moveBishop(board, piece, color);
         case 'H'
-            doSomething(color);
+            validMoves = utils.moves.moveHorse(board, piece, color);
         case 'K'
-            doSomething(color);
+            validMoves = utils.moves.moveKing(board, piece, color);
         case 'P'
             validMoves = utils.moves.movePawn(board, piece, color);
         case 'Q'
-            doSomething(color);
+            validMoves = utils.moves.moveQueen(board, piece, color);
         case 'R'
             validMoves = utils.moves.moveRook(board, piece, color);
     end
