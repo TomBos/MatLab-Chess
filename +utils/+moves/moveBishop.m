@@ -9,10 +9,10 @@ function validMoves = moveBishop(board, piece, color)
 
     % [ direction rows, direction columns, max steps ] 
     dirs = [
-        -1 -1  min(r-1, c-1);     % up-left
-        -1  1  min(r-1, 8-c);     % up-right
-         1 -1  min(8-r, c-1);     % down-left
-         1  1  min(8-r, 8-c)      % down-right
+        -1 -1  min(r-1, c-1);     % UP-LEFT
+        -1  1  min(r-1, 8-c);     % UP-RIGHT
+         1 -1  min(8-r, c-1);     % DOWN-LEFT
+         1  1  min(8-r, 8-c)      % DOWN-RIGHT
     ];
 
     for d = 1:4
