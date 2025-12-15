@@ -41,5 +41,6 @@ while true
     selected_piece.moveTo(new_r, new_c);
     selected_piece.firstMove = false;
 
-    display(B.pieces);
+    % --- TODO: Promotion ---
+    % utils.promotionUI(selected_piece.color);
 end
