@@ -1,4 +1,4 @@
-clear; clc;
+clear; clc; close;
 
 % --- Fullscreen window ---
 fig = figure;
@@ -12,36 +12,31 @@ dark  = utils.rgb(111, 146, 78);
 B = board(light, dark);
 
 while true
-    % --- Select Piece ---
-    [selected_piece, old_r, old_c] = utils.selectPiece(B);
-    validMoves = utils.getMoves(B, old_r, old_c);
-    circleHandles = utils.highlightMoves(validMoves);
+    % --- Select piece ---
+    [piece, old_r, old_c, new_r, new_c] = utils.selectPiece(B);
 
-    pos = utils.getValidMove(validMoves);
-
-    if exist('circleHandles','var')
-        delete(circleHandles);
+    % --- Skip deselected piece ---
+    if isempty(piece)
+        continue
     end
 
-    new_r = pos(1);
-    new_c = pos(2);
-
-    % --- If target square has a piece, kill it ---
-    if ~isempty(B.pieces{new_r, new_c})
-        delete(B.pieces{new_r, new_c}.handle);
+    % --- Capture enemy piece if present ---
+    captured = B.pieces{new_r, new_c};
+    if ~isempty(captured)
+        delete(captured.handle);
     end
 
-    % --- Update piece position in the board matrix ---
-    B.pieces{new_r, new_c} = selected_piece;
+    % --- Update board matrix ---
+    B.pieces{new_r, new_c} = piece;
     B.pieces{old_r, old_c} = [];
 
-    % --- Move the actual sprite ---
-    selected_piece.moveTo(new_r, new_c);
-    selected_piece.firstMove = false;
+    % --- Move piece sprite ---
+    piece.moveTo(new_r, new_c);
+    piece.firstMove = false;
 
-    % --- TODO: Promotion ---
-    % utils.promotionUI(selected_piece.color);
+    % --- Handle promotion ---
+    utils.promotion(B, piece);
 
-    % --- Swap players ---
+    % --- Next turn ---
     B.round = B.round + 1;
 end

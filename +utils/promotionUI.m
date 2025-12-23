@@ -1,11 +1,24 @@
-function promotionUI(color)
-    fig = uifigure('Name','Select Your Piece','Position',[500 500 400 120]);
+function pieceType = promotionUI(color)
+    % --- Give starting position negative offset ---
+    % --- Than bring it to middle of screen ---
+    position = [
+        -400 ...
+        -120 ...
+        400  ...
+        120  ...
+    ];
 
-    pieces = {'Rook','Knight','Bishop','Queen'};
+    fig = uifigure('Name','Select Your Piece','Position', position);
+    fig.UserData = [];
+    utils.centerFigure(fig);
+
+
+
+    pieces = {'R','K','B','Q'};
     imgs = {
-        color + "/R.png",
-        color + "/H.png",
-        color + "/B.png",
+        color + "/R.png";
+        color + "/H.png";
+        color + "/B.png";
         color + "/Q.png"
     };
 
@@ -15,7 +28,7 @@ function promotionUI(color)
     xPos = spacing;
 
     for i = 1:length(pieces)
-        % Read image
+        % --- Read image --- 
         img = imread(imgs{i});
         img = im2double(img);
 
@@ -29,16 +42,29 @@ function promotionUI(color)
 
         % --- Create axes to hold image ---
         ax = uiaxes(fig, 'Position',[xPos 20 btnWidth btnHeight]);
-        image(ax, img, 'AlphaData', alpha);
+        hImg = image(ax, img, 'AlphaData', alpha);
+        hImg.ButtonDownFcn = @(~,~) selectPiece(pieces{i});
+        hImg.PickableParts = 'all';
+        hImg.HitTest = 'on';
+        axis(ax,'off');
         ax.XTick = [];
         ax.YTick = [];
-        ax.XColor = 'none';
-        ax.YColor = 'none';
-        axis(ax,'off');
+
 
         % --- Set click callback ---
-        ax.ButtonDownFcn = @(src,event) pieceSelected(pieces{i});
+        ax.ButtonDownFcn = @(src,event) selectPiece(pieces{i});
 
         xPos = xPos + btnWidth + spacing;
+    end
+
+    % --- Wait for action --
+    uiwait(fig);
+
+    pieceType = fig.UserData;
+    delete(fig);
+
+    function selectPiece(p)
+        fig.UserData = p;
+        uiresume(fig);
     end
 end
