@@ -5,6 +5,7 @@ classdef board < handle
         figure
         ax
         pieces
+        round = 0
         squareSize = 1
     end
 

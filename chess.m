@@ -26,8 +26,6 @@ while true
     new_r = pos(1);
     new_c = pos(2);
 
-    fprintf("Move to [%d,%d]\n", new_r, new_c);
-
     % --- If target square has a piece, kill it ---
     if ~isempty(B.pieces{new_r, new_c})
         delete(B.pieces{new_r, new_c}.handle);
@@ -43,4 +41,7 @@ while true
 
     % --- TODO: Promotion ---
     % utils.promotionUI(selected_piece.color);
+
+    % --- Swap players ---
+    B.round = B.round + 1;
 end
