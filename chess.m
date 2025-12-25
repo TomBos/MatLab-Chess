@@ -24,6 +24,17 @@ while true
         delete(captured.handle);
     end
 
+    % --- en passant capture ---
+    if piece.type == 'P' && isequal([new_r, new_c], B.enPassantSquare)
+        dir = sign(new_r - old_r);
+        captured_r = new_r - dir;
+        captured_c = new_c;
+        captured = B.pieces{captured_r, captured_c};
+        B.pieces{captured_r, captured_c} = [];
+        delete(captured.handle);
+    end
+
+
     % --- Update Board ---
     B.pieces{new_r, new_c} = piece;
     B.pieces{old_r, old_c} = [];
@@ -31,6 +42,10 @@ while true
     % --- Move piece sprite ---
     piece.moveTo(new_r, new_c);
     piece.firstMove = false;
+
+    % --- en passant ---
+    utils.checkEnPassant(B, piece, new_r, old_r, old_c);
+    display(B.enPassantSquare);
 
     % --- Handle promotion ---
     utils.promotion(B, piece);

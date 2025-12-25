@@ -62,14 +62,14 @@ classdef labelUI < handle
                 digitOffset = digitOffset + 1;
             end
 
-            xlim(obj.digitAxes,[0 4]);
-            ylim(obj.digitAxes,[0 1]);
+            xlim(obj.digitAxes,[0 5]);
+            ylim(obj.digitAxes,[0 2]);
             axis(obj.digitAxes,'ij');
 
             % --- Draw turn image under counter ---
             obj.turnAxes = axes(obj.fig, ...
                 'Units','normalized', ...
-                'Position',[0.75 0.75 0.1 0.08], ...
+                'Position',[0.75 0.79 0.1 0.08], ...
                 'Visible','off');
             hold(obj.turnAxes,'on');
 
@@ -79,8 +79,8 @@ classdef labelUI < handle
                 'CData', obj.turnImgs{1}.CData, ...
                 'AlphaData', obj.turnImgs{1}.Alpha);
 
-            xlim(obj.turnAxes,[0 1]);
-            ylim(obj.turnAxes,[0 1]);
+            xlim(obj.turnAxes,[0 2]);
+            ylim(obj.turnAxes,[0 2]);
             axis(obj.turnAxes,'ij');
         end
 

@@ -33,24 +33,23 @@ function validMoves = movePawn(board, piece, color)
         if ~utils.inBounds(nextR, nextC)
             continue;
         end
-        
+
         nextPiece = board.pieces{nextR, nextC};
-        if isempty(nextPiece)
-            continue;
+
+        % --- Normal enemy capture ---
+        if ~isempty(nextPiece) && strcmp(nextPiece.color, enemy) && ~strcmp(nextPiece.type,'K')
+            moveCount = moveCount + 1;
+            validMoves(moveCount,:) = [nextR, nextC];
         end
 
-        % --- Dont capture King ---
-        if strcmp(nextPiece.type, 'K')
-            continue;
-        end
-
-        % --- Capture enemy ---
-        if strcmp(nextPiece.color, enemy)
-           moveCount = moveCount + 1;
-           validMoves(moveCount,:) = [nextR, nextC];
+        % --- En passant ---
+        fprintf("%d     %d\n", nextR, nextC);
+        if isempty(nextPiece) && isequal([nextR, nextC], board.enPassantSquare)
+            moveCount = moveCount + 1;
+            validMoves(moveCount,:) = [nextR, nextC];
         end
     end
-
+    
     % --- Trim unused preallocated rows ---
     validMoves = validMoves(1:moveCount,:);
 end

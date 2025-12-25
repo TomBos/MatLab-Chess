@@ -8,6 +8,7 @@ classdef piece < handle
         type
         size = 0.9
         firstMove = true
+        doubleMove
     end
 
     methods

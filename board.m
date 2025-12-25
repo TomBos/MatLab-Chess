@@ -7,6 +7,7 @@ classdef board < handle
         pieces
         round = 0
         squareSize = 1
+        enPassantSquare
     end
 
     methods
