@@ -8,6 +8,9 @@ set(fig, 'WindowState', 'maximized');
 light = utils.rgb(235, 236, 208);
 dark  = utils.rgb(111, 146, 78);
 
+% --- Create labels ---
+labels = labelUI(fig);
+
 % --- Create Board ---
 B = board(light, dark);
 
@@ -15,18 +18,13 @@ while true
     % --- Select piece ---
     [piece, old_r, old_c, new_r, new_c] = utils.selectPiece(B);
 
-    % --- Skip deselected piece ---
-    if isempty(piece)
-        continue
-    end
-
     % --- Capture enemy piece if present ---
     captured = B.pieces{new_r, new_c};
     if ~isempty(captured)
         delete(captured.handle);
     end
 
-    % --- Update board matrix ---
+    % --- Update Board ---
     B.pieces{new_r, new_c} = piece;
     B.pieces{old_r, old_c} = [];
 
@@ -39,4 +37,8 @@ while true
 
     % --- Next turn ---
     B.round = B.round + 1;
+
+    % --- Update UI labels ---
+    labels.updateUiLabels(B.round);
+    labels.updateTurn(B.round);
 end

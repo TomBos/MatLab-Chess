@@ -33,13 +33,8 @@ function pieceType = promotionUI(color)
         img = im2double(img);
 
         % --- Detect red for transparency ---
-        R = img(:,:,1);
-        G = img(:,:,2);
-        B = img(:,:,3);
-        alpha = ones(size(R));
-        redMask = R > 0.6 & G < 0.4 & B < 0.4;
-        alpha(redMask) = 0;
-
+        alpha = utils.removeBG(img);
+        
         % --- Create axes to hold image ---
         ax = uiaxes(fig, 'Position',[xPos 20 btnWidth btnHeight]);
         hImg = image(ax, img, 'AlphaData', alpha);

@@ -21,7 +21,6 @@ classdef board < handle
 
         function initFigure(obj)
             obj.figure = figure(1);
-            clf(obj.figure);
 
             obj.ax = axes(obj.figure);
             hold(obj.ax, 'on');

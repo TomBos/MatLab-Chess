@@ -38,16 +38,8 @@ classdef piece < handle
             img = imread(obj.imgSrc);
             img = im2double(img);
 
-            R = img(:,:,1);
-            G = img(:,:,2);
-            B = img(:,:,3);
-
-            % --- Detect red ---
-            redMask = R > 0.6 & G < 0.4 & B < 0.4;
-
-            % --- Alpha ---
-            alpha = ones(size(R));
-            alpha(redMask) = 0;
+            % --- Remove BG ---
+            alpha = utils.removeBG(img);
 
             x = obj.col - 1 + (1 - obj.size)/2;
             y = obj.row - 1 + (1 - obj.size)/2;
