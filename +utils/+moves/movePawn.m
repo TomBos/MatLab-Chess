@@ -1,4 +1,4 @@
-function validMoves = movePawn(board, piece, color)
+function validMoves = movePawn(board, piece, color, captureKing)
     % Returns array of valid coordinates [row col]
     % Max 4 moves: 1-step, 2-step and 2 takes
     validMoves = zeros(4,2);
@@ -37,13 +37,15 @@ function validMoves = movePawn(board, piece, color)
         nextPiece = board.pieces{nextR, nextC};
 
         % --- Normal enemy capture ---
-        if ~isempty(nextPiece) && strcmp(nextPiece.color, enemy) && ~strcmp(nextPiece.type,'K')
-            moveCount = moveCount + 1;
-            validMoves(moveCount,:) = [nextR, nextC];
+        if ~isempty(nextPiece) && strcmp(nextPiece.color, enemy)
+            if ~strcmp(nextPiece.type, 'K') || captureKing
+                moveCount = moveCount + 1;
+                validMoves(moveCount,:) = [nextR, nextC];
+            end
         end
 
+
         % --- En passant ---
-        fprintf("%d     %d\n", nextR, nextC);
         if isempty(nextPiece) && isequal([nextR, nextC], board.enPassantSquare)
             moveCount = moveCount + 1;
             validMoves(moveCount,:) = [nextR, nextC];

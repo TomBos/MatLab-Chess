@@ -1,4 +1,4 @@
-function validMoves = moveHorse(board, piece, color)
+function validMoves = moveHorse(board, piece, color, captureKing)
     % --- Max possible horse moves ---
     validMoves = zeros(8,2);
     moveCount = 0;
@@ -30,15 +30,15 @@ function validMoves = moveHorse(board, piece, color)
 
         nextPiece = board.pieces{nextRow, nextCol};
 
-        % --- Dont capture king ---
-        if ~isempty(nextPiece) && strcmp(nextPiece.type, 'K')
-            continue;
-        end
-
         % --- Empty or enemy ---
-        if isempty(nextPiece) || strcmp(nextPiece.color, enemy)
+        if isempty(nextPiece)
             moveCount = moveCount + 1;
             validMoves(moveCount,:) = [nextRow, nextCol];
+        elseif strcmp(nextPiece.color, enemy)
+            if ~strcmp(nextPiece.type,'K') || captureKing
+                moveCount = moveCount + 1;
+                validMoves(moveCount,:) = [nextRow, nextCol];
+            end
         end
     end
 

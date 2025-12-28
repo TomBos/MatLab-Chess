@@ -1,4 +1,4 @@
-function validMoves = moveRook(board, piece, color)
+function validMoves = moveRook(board, piece, color, captureKing)
     % --- Max possible bishop moves ---
     validMoves = zeros(14,2);
     moveCount = 0;
@@ -26,15 +26,12 @@ function validMoves = moveRook(board, piece, color)
 
             nextPiece = board.pieces{nextRow, nextCol};
 
-            % --- Stop if next piece is king ---
-            if ~isempty(nextPiece) && strcmp(nextPiece.type, 'K')
-                break;
-            end
-
             % --- Capture enemy piece ---
             if ~isempty(nextPiece) && strcmp(nextPiece.color, enemy)
-                moveCount = moveCount + 1;
-                validMoves(moveCount,:) = [nextRow, nextCol];
+                if ~strcmp(nextPiece.type, 'K') || captureKing
+                    moveCount = moveCount + 1;
+                    validMoves(moveCount,:) = [nextRow, nextCol];
+                end
                 break;
             end
 

@@ -43,9 +43,24 @@ while true
     piece.moveTo(new_r, new_c);
     piece.firstMove = false;
 
+    % --- Check if in check ---
+    attackedColor = utils.tern(piece.color=='w','b','w');
+    if utils.kingInCheck(B, attackedColor)
+        disp(attackedColor + " is in check");
+    end
+    
+    % --- End of game ---
+    [isMate, isStalemate] = utils.endOfLine(B, attackedColor);
+
+    if isMate
+        disp(attackedColor + " is checkmated");
+    elseif isStalemate
+        disp("Stalemate");
+    end
+
+
     % --- en passant ---
     utils.checkEnPassant(B, piece, new_r, old_r, old_c);
-    display(B.enPassantSquare);
 
     % --- Handle promotion ---
     utils.promotion(B, piece);

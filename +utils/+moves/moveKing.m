@@ -21,7 +21,7 @@ function validMoves = moveKing(board, piece, color)
     ];
 
     % --- Find enemy king ---
-    [ekr, ekc] = utils.findEnemyKing(board, enemy);
+    [ekr, ekc] = utils.findKing(board, enemy);
 
     for i = 1:8
         nextR = r + dirs(i,1);

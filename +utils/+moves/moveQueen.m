@@ -1,4 +1,4 @@
-function validMoves = moveQueen(board, piece, color)
+function validMoves = moveQueen(board, piece, color, captureKing)
     % --- Max possible queen moves (rook + bishop)
     validMoves = zeros(27,2);
     moveCount = 0;
@@ -37,13 +37,12 @@ function validMoves = moveQueen(board, piece, color)
                 break;
             end
 
-            if strcmp(nextPiece.type, 'K')
-                break;
-            end
-
+            % --- Enemy ---
             if strcmp(nextPiece.color, enemy)
-                moveCount = moveCount + 1;
-                validMoves(moveCount,:) = [nextR, nextC];
+                if ~strcmp(nextPiece.type, 'K') || captureKing
+                    moveCount = moveCount + 1;
+                    validMoves(moveCount,:) = [nextR, nextC];
+                end
                 break;
             end
         end
