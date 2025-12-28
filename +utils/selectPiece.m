@@ -42,7 +42,9 @@ function [piece, old_r, old_c, new_r, new_c] = selectPiece(board)
                     delete(highlightHandles);
                     highlightHandles = [];
                 end
-                piece = []; old_r = []; old_c = [];
+                piece = [];
+                old_r = [];
+                old_c = [];
                 break 
             end
             
@@ -76,7 +78,7 @@ end
 % --- Filter moves that put king in check ---
 function legalMoves = getFilteredMoves(board, r, c, color)
     rawMoves = utils.getMoves(board, r, c);
-    legalMoves = [];
+    legalMoves = zeros(0, 2);
     movingPiece = board.pieces{r, c};
     
     for i = 1:size(rawMoves, 1)

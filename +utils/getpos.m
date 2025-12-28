@@ -1,21 +1,34 @@
-function pos = getpos(ax)
-    % Wait for a click and return [row, col]
-    pos = [];
-
-    % --- Get parent ---
+function pos = getpos()
     ax = gca;
     f = ancestor(ax, 'figure');
-    posClick = [];
+    pos = [];
     
     function clickCallback(~, ~)
+        if ~isgraphics(ax) 
+            return;
+        end
+        
         cp = get(ax, 'CurrentPoint');
-        posClick = [floor(cp(1,2)) + 1, floor(cp(1,1)) + 1];
-        uiresume(f);
+        r = floor(cp(1,2)) + 1;
+        c = floor(cp(1,1)) + 1;
+        
+        % --- Only resume if click is inside the 8x8 board ---
+        if r >= 1 && r <= 8 && c >= 1 && c <= 8
+            pos = [r, c];
+            uiresume(f);
+        end
     end
 
+    % --- Set the callback ---
     set(f, 'WindowButtonDownFcn', @clickCallback);
     uiwait(f);
-    pos = posClick;
-
-    set(f, 'WindowButtonDownFcn', '');
+    
+    if isgraphics(f)
+        set(f, 'WindowButtonDownFcn', '');
+    end
+    
+    % --- Prevent game crash ---
+    if isempty(pos)
+        error('Game window closed by user.');
+    end
 end

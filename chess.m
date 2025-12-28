@@ -48,14 +48,23 @@ while true
     if utils.kingInCheck(B, attackedColor)
         disp(attackedColor + " is in check");
     end
-    
+
     % --- End of game ---
     [isMate, isStalemate] = utils.endOfLine(B, attackedColor);
 
-    if isMate
-        disp(attackedColor + " is checkmated");
-    elseif isStalemate
-        disp("Stalemate");
+    if isMate || isStalemate
+        if isMate
+            winner = utils.tern(attackedColor == 'w', "Black", "White");
+            titleText = "Checkmate!";
+            msg = winner + " wins the game!";
+        else
+            titleText = "Draw";
+            msg = "The game ended in a Stalemate.";
+        end
+        
+        msgbox(msg, titleText, 'help');
+        labels.updateTurn("GAME OVER");
+        break; 
     end
 
 
